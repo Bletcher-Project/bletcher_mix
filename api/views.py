@@ -1,9 +1,10 @@
 #Import necessary libraries
-import pickle
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import render
 import numpy as np
+from api import neural_style as ns
+from torchvision.utils import save_image
 
 # Create your views here.
 @api_view(['GET'])
@@ -15,44 +16,42 @@ def index_page(request):
     return Response(return_data)
 
 @api_view(["POST"])
-def predict_diabetictype(request):
+def bletcher_mix(request):
     try:
-        age = request.data.get('age',None)
-        bs_fast = request.data.get('bs_fast',None)
-        bs_pp = request.data.get('bs_pp',None)
-        plasma_r = request.data.get('plasma_r',None)
-        plasma_f = request.data.get('plasma_f',None)
-        hbA1c = request.data.get('hbA1c',None)
-        fields = [age,bs_fast,bs_pp,plasma_r,plasma_f,hbA1c]
+        content_url = request.data.get('content_url',None)
+        style_url = request.data.get('style_url',None)
+        
+        fields = [content_url, style_url]
+
         if not None in fields:
             #Datapreprocessing Convert the values to float
-            age = float(age)
-            bs_fast = float(bs_fast)
-            bs_pp = float(bs_pp)
-            plasma_r = float(plasma_r)
-            plasma_f = float(plasma_f)
-            hbA1c = float(hbA1c)
-            result = [age,bs_fast,bs_pp,plasma_r,plasma_f,hbA1c]
-            #Passing data to model & loading the model from disks
-            model_path = 'ml_model/model.pkl'
-            classifier = pickle.load(open(model_path, 'rb'))
-            prediction = classifier.predict([result])[0]
-            conf_score =  np.max(classifier.predict_proba([result]))*100
-            predictions = {
+            content_url = str(content_url)
+            style_url = str(style_url)
+            
+            cnn, cnn_normalization_mean, cnn_normalization_std, style_img, content_img, input_img = ns.set_neural_style(content_url, style_url)
+            output = ns.run_style_transfer(cnn, cnn_normalization_mean, cnn_normalization_std,\
+                content_img, style_img, input_img)
+
+            save_img = output[0]
+            output_name = '{}x{}.jpg'.format(style_url, content_url)
+            save_image(save_img, '/Users/yungoing/Desktop/bletcher/bletcher_mix/api/data/output/{}'.format(output_name))
+
+
+            #print('synthesizing')
+            result = {
                 'error' : '0',
                 'message' : 'Successfull',
-                'prediction' : prediction,
-                'confidence_score' : conf_score
+                'output_name' : output_name
             }
         else:
-            predictions = {
+            result = {
                 'error' : '1',
                 'message': 'Invalid Parameters'                
             }
     except Exception as e:
-        predictions = {
+        result = {
             'error' : '2',
             "message": str(e)
         }
     
-    return Response(predictions)
+    return Response(result)

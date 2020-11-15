@@ -3,5 +3,5 @@ from api import views
 
 urlpatterns = [
     path('',views.index_page),
-    path('predict', views.predict_diabetictype),
+    path('synthesizing', views.bletcher_mix),
 ]
