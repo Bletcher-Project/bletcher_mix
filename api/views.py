@@ -6,6 +6,10 @@ import numpy as np
 from api import neural_style as ns
 from torchvision.utils import save_image
 
+import cloudinary
+import cloudinary.api
+import cloudinary.uploader
+
 # Create your views here.
 
 
@@ -45,13 +49,14 @@ def bletcher_mix(request):
             output = ns.run_style_transfer(cnn, cnn_normalization_mean, cnn_normalization_std,
                                            content_img, style_img, input_img)
 
-            save_img = output[0]
+            tensor_img = output[0]
             output_name = '{}x{}.jpg'.format(style_url, content_url)
             #
-            print("save_img : {}".format(save_img))
+            print("tensor_img : {}".format(tensor_img))
             #
-            save_image(
-                save_img, '/Users/yungoing/Desktop/bletcher/bletcher_mix/api/data/output/{}'.format(output_name))
+            # save_image(
+            #     save_img, '/Users/yungoing/Desktop/bletcher/bletcher_mix/api/data/output/{}'.format(output_name))
+            cloudinary.uploader.upload(tensor_img, folder="post/")
 
             result = {
                 'error': '0',
