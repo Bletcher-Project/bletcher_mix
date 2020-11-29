@@ -14,6 +14,23 @@ import cloudinary
 from pathlib import Path
 import os
 
+
+import environ
+root = environ.Path(__file__) # three folder back (/a/b/c/ - 3 = /)
+env = environ.Env(DEBUG=(bool, False),)  # set casting, default value
+
+# reading .env file
+environ.Env.read_env() # .env 파일이 있으면 읽음
+
+
+SITE_ROOT = root()
+
+# False if not in os.environ
+DEBUG = env('DEBUG')
+
+# Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
+SECRET_KEY = env('SECRET_KEY')
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,11 +38,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'mtk@_&)g9eeqj*04emxmwe+c&#6@#vxwam**$)41y*=i-=5y_k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -89,10 +104,10 @@ DATABASES = {
 # Cloudinary
 
 cloudinary.config(
-    cloud_name='cloud_name',
-    api_key='api_key',
-    api_secret='api_secret',
-    secure=True
+    cloud_name=env('CLOUD_NAME'),
+    api_key=env('API_KEY'),
+    api_secret=env('API_SECRET'),
+    secure=env('SECURE')
 )
 
 MEDIA_URL = '/media/'
