@@ -128,7 +128,7 @@ class Normalization(nn.Module):
         
 
 # desired depth layers to compute style/content losses :
-content_layers_default = ['conv_2']
+content_layers_default = ['conv_1']
 style_layers_default = ['conv_1', 'conv_2', 'conv_3', 'conv_4', 'conv_5']
 
 
@@ -171,6 +171,10 @@ def get_style_model_and_losses(cnn, normalization_mean, normalization_std,
             name = 'bn_{}'.format(i)
         elif isinstance(layer, nn.Linear):
             name = 'fc_{}'.format(i)
+        elif isinstance(layer, nn.Sequential):
+            name = 'sq_{}'.format(i)
+        elif isinstance(layer, nn.AdaptiveAvgPool2d):
+            name = 'adap_{}'.format(i)
         else:
             raise RuntimeError('Unrecognized layer: {}'.format(layer.__class__.__name__))
 
@@ -206,7 +210,7 @@ def get_input_optimizer(input_img):
     return optimizer
 
 def run_style_transfer(cnn, normalization_mean, normalization_std,
-                       content_img, style_img, input_img, num_steps=300,
+                       content_img, style_img, input_img, num_steps=350,
                        style_weight=1000000, content_weight=1):
     """Run the style transfer."""
     print('Building the style transfer model..')
@@ -244,6 +248,7 @@ def run_style_transfer(cnn, normalization_mean, normalization_std,
                 print("run {}:".format(run))
                 print('Style Loss : {:4f} Content Loss: {:4f}'.format(
                     style_score.item(), content_score.item()))
+                #.item()
                 print()
 
             return style_score + content_score
@@ -260,8 +265,8 @@ def set_neural_style(content_image, style_image):
     # GPU환경으로 돌릴 수 있는 경우 cuda로, 아닐경우 cpu로 시작 => GPU환경이 좋아서 검사하는거라고함
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     #모델 import
-    cnn = models.vgg19(pretrained=True).features.to(device).eval()
-
+    cnn = models.resnet50(pretrained=True).to(device).eval()
+    #.features
     cnn_normalization_mean = torch.tensor([0.485, 0.456, 0.406]).to(device)
     cnn_normalization_std = torch.tensor([0.229, 0.224, 0.225]).to(device)
 
