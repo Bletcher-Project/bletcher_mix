@@ -26,7 +26,7 @@ def index_page(request):
     return Response(return_data)
 
 
-@api_view(["POST"])
+@api_view(['POST'])
 def bletcher_mix(request):
     try:
         content_url = request.data.get('content_url', None)
@@ -34,18 +34,20 @@ def bletcher_mix(request):
 
         fields = [content_url, style_url]
 
-        #
-        print("try문 완료")
-        #
 
         if not None in fields:
+            print()
+            print("url find")
+            print()
+
             # Datapreprocessing Convert the values to float
             content_url = str(content_url)
             style_url = str(style_url)
 
             print("content : {}".format(content_url))
             print("style : {}".format(style_url))
-
+            print()
+            
             cnn, cnn_normalization_mean, cnn_normalization_std, style_img, content_img, input_img = ns.set_neural_style(
                 content_url, style_url)
             
@@ -58,31 +60,18 @@ def bletcher_mix(request):
             
             # output_name : 저장할 파일 이름
             output_name = '{}x{}1.jpg'.format(style_url, content_url)
-            
-            print("1")
+            print("output name : {}".format(output_name))
+            print()
+
             unloader = transforms.ToPILImage()
             save_image = unloader(tensor_img)      # 아까 생성했던 fake batch 삭제
 
-            print("2")
             byteIO = io.BytesIO()
-            print("2-1")
             save_image.save(byteIO, format='jpeg')
-            print("2-2")
             byteArr = byteIO.getvalue()
-            print("2-3")
-            
-            # save_image : 로컬 파일시스템에 이미지 파일로 저장하는 함수
-            # 실제 heroku에서는 로컬 파일시스템을 사용할 수 없으므로, save_image를 사용할 수 없습니다.
-            # from torchvision.utils import save_image
-            #save_image(tensor_img, '/Users/yungoing/Desktop/bletcher/bletcher_mix/api/data/output/{}'.format(output_name))
-            
-            # cloudinary에 업로드하는 함수 : upload([file], foler=[target dir])
-            # 이 때 [file] <- 이 부분이 file type이어야 하는데, tensor array라 해결이 안 되는 부분입니다.
-            
-            # save_image = Image.fromarray(tensor_img.)
-            cloudinary.uploader.upload(byteArr, folder="post/")
 
-            print("3")
+            # cloudinary에 업로드
+            cloudinary.uploader.upload(byteArr, folder="post/")
             
             result = {
                 'error': '0',

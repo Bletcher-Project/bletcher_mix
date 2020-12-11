@@ -265,13 +265,13 @@ def set_neural_style(content_image, style_image):
     # GPU환경으로 돌릴 수 있는 경우 cuda로, 아닐경우 cpu로 시작 => GPU환경이 좋아서 검사하는거라고함
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     #모델 import
-    cnn = models.resnet50(pretrained=True).to(device).eval()
+    cnn = models.vgg19(pretrained=True).features.to(device).eval()
     #.features
     cnn_normalization_mean = torch.tensor([0.485, 0.456, 0.406]).to(device)
     cnn_normalization_std = torch.tensor([0.229, 0.224, 0.225]).to(device)
 
-    style_img = image_loader("/Users/yungoing/Desktop/bletcher/bletcher_mix/api/data/style/{}.jpg".format(style_image))
-    content_img = image_loader("/Users/yungoing/Desktop/bletcher/bletcher_mix/api/data/content/{}.jpg".format(content_image))
+    style_img = image_loader("/Users/yoongoing/Desktop/bletcher_mix/api/data/style/{}.jpg".format(style_image))
+    content_img = image_loader("/Users/yoongoing/Desktop/bletcher_mix/api/data/content/{}.jpg".format(content_image))
 
     assert style_img.size() == content_img.size(), \
     "we need to import style and content images of the same size"
