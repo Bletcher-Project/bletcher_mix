@@ -8,13 +8,16 @@ from api import neural_style as ns
 from PIL import Image
 from torchvision.utils import save_image
 import torchvision.transforms as transforms
-
 import cloudinary
 import cloudinary.api
 import cloudinary.uploader
-
 import io
+from urllib.request import urlopen
+import ssl
 # Create your views here.
+
+
+
 
 
 @api_view(['GET'])
@@ -28,21 +31,24 @@ def index_page(request):
 
 @api_view(['POST'])
 def bletcher_mix(request):
+    context = ssl._create_unverified_context()
     try:
-        content_url = request.data.get('content_url', None)
-        style_url = request.data.get('style_url', None)
-
-        fields = [content_url, style_url]
-
-
+        # context = ssl._create_unverified_context()
+        # # r1 = urlopen(request, context=context)
+        #
+        content_url = request.data.get('content_image_path', )
+        content_user = request.data.get('content_image_user', None)
+        style_url = request.data.get('style_image_path', None)
+        style_user = request.data.get('style_image_user', None)
+        fields = [content_url, style_url, content_user, style_user]
         if not None in fields:
-            print()
-            print("url find")
-            print()
 
+            print("url find")
             # Datapreprocessing Convert the values to float
-            content_url = str(content_url)
-            style_url = str(style_url)
+            # content_url = content_url.decode('utf-8')
+            # style_url = style_url.decode('utf-8')
+            # content_user = content_user.decode('utf-8')
+            # style_user = style_user.decode('utf-8')
 
             print("content : {}".format(content_url))
             print("style : {}".format(style_url))
@@ -50,16 +56,16 @@ def bletcher_mix(request):
             
             cnn, cnn_normalization_mean, cnn_normalization_std, style_img, content_img, input_img = ns.set_neural_style(
                 content_url, style_url)
-            
+
             # output : 3차원 tensor array
             output = ns.run_style_transfer(cnn, cnn_normalization_mean, cnn_normalization_std,
                                            content_img, style_img, input_img)
-            
+
             # tensor_img : 2차원 tensor array
             tensor_img = output[0].squeeze(0)
             
             # output_name : 저장할 파일 이름
-            output_name = '{}x{}1.jpg'.format(style_url, content_url)
+            output_name = '{} x {}.jpg'.format(style_user, content_user)
             print("output name : {}".format(output_name))
             print()
 
@@ -75,7 +81,7 @@ def bletcher_mix(request):
             
             result = {
                 'error': '0',
-                'message': 'Successfull',
+                'message': 'Successful',
                 'output_name': output_name
             }
         else:

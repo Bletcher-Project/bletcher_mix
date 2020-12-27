@@ -11,10 +11,17 @@ import matplotlib.pyplot as plt
 import torchvision.transforms as transforms
 import torchvision.models as models
 from torchvision.utils import save_image
-
 import copy
+from io import BytesIO
+import requests
 
-
+def download(url):
+    response = requests.get(url)
+    binary_data = response.content
+    temp_file = BytesIO()
+    temp_file.write(binary_data)
+    temp_file.seek(0)
+    return temp_file
 
 
 def image_loader(image_name):
@@ -27,8 +34,8 @@ def image_loader(image_name):
     loader = transforms.Compose([
         transforms.Resize((imsize,imsize)),  # 불러올 이미지 사이즈를 위의 imsize로 수정
         transforms.ToTensor()])     # 수정한 아이를 torch tensor로 변형
-    
-    image = Image.open(image_name).convert('RGB')
+    image = download(image_name)
+    image = Image.open(image).convert('RGB')
     # 네트워크 사용하려면 fake batch를 통해 차원을 맞춰줍니다
     image = loader(image)
     image = image.unsqueeze(0)
@@ -270,8 +277,8 @@ def set_neural_style(content_image, style_image):
     cnn_normalization_mean = torch.tensor([0.485, 0.456, 0.406]).to(device)
     cnn_normalization_std = torch.tensor([0.229, 0.224, 0.225]).to(device)
 
-    style_img = image_loader("/Users/yoongoing/Desktop/bletcher_mix/api/data/style/{}.jpg".format(style_image))
-    content_img = image_loader("/Users/yoongoing/Desktop/bletcher_mix/api/data/content/{}.jpg".format(content_image))
+    style_img = image_loader(style_image)
+    content_img = image_loader(content_image)
 
     assert style_img.size() == content_img.size(), \
     "we need to import style and content images of the same size"
