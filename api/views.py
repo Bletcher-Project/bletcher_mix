@@ -36,13 +36,11 @@ def bletcher_mix(request):
         # context = ssl._create_unverified_context()
         # # r1 = urlopen(request, context=context)
         #
-        content_url = request.data.get('content_image_path', )
-        content_user = request.data.get('content_image_user', None)
+        content_url = request.data.get('content_image_path', None)
         style_url = request.data.get('style_image_path', None)
-        style_user = request.data.get('style_image_user', None)
-        fields = [content_url, style_url, content_user, style_user]
-        if not None in fields:
+        fields = [content_url, style_url]
 
+        if not None in fields:
             print("url find")
             # Datapreprocessing Convert the values to float
             # content_url = content_url.decode('utf-8')
@@ -63,9 +61,9 @@ def bletcher_mix(request):
 
             # tensor_img : 2차원 tensor array
             tensor_img = output[0].squeeze(0)
-            
+
             # output_name : 저장할 파일 이름
-            output_name = '{} x {}.jpg'.format(style_user, content_user)
+            output_name = '{} x {}.jpg'.format(content_url, style_url)
             print("output name : {}".format(output_name))
             print()
 
@@ -78,11 +76,10 @@ def bletcher_mix(request):
 
             # cloudinary에 업로드
             cloudinary.uploader.upload(byteArr, folder="post/")
-            
             result = {
                 'error': '0',
                 'message': 'Successful',
-                'output_name': output_name
+                'output_name': output_name ## new Date().valueOf() + calcUtil.getNand(10) 이 되어야 한다. (이름 형식)
             }
         else:
             result = {
