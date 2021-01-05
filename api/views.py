@@ -14,10 +14,9 @@ import cloudinary.uploader
 import io
 from urllib.request import urlopen
 import ssl
+
+
 # Create your views here.
-
-
-
 
 
 @api_view(['GET'])
@@ -31,14 +30,14 @@ def index_page(request):
 
 @api_view(['POST'])
 def bletcher_mix(request):
-    context = ssl._create_unverified_context()
     try:
         # context = ssl._create_unverified_context()
         # # r1 = urlopen(request, context=context)
         #
         content_url = request.data.get('content_image_path', None)
         style_url = request.data.get('style_image_path', None)
-        fields = [content_url, style_url]
+        mix_image_name = request.data.get('mix_image_name', None)
+        fields = [content_url, style_url, mix_image_name]
 
         if not None in fields:
             print("url find")
@@ -50,8 +49,8 @@ def bletcher_mix(request):
 
             print("content : {}".format(content_url))
             print("style : {}".format(style_url))
-            print()
-            
+            print("name : {}".format(mix_image_name))
+
             cnn, cnn_normalization_mean, cnn_normalization_std, style_img, content_img, input_img = ns.set_neural_style(
                 content_url, style_url)
 
@@ -63,23 +62,25 @@ def bletcher_mix(request):
             tensor_img = output[0].squeeze(0)
 
             # output_name : 저장할 파일 이름
-            output_name = '{} x {}.jpg'.format(content_url, style_url)
+            output_name = "{}".format(mix_image_name)
             print("output name : {}".format(output_name))
             print()
 
             unloader = transforms.ToPILImage()
-            save_image = unloader(tensor_img)      # 아까 생성했던 fake batch 삭제
+            save_image = unloader(tensor_img)  # 아까 생성했던 fake batch 삭제
 
             byteIO = io.BytesIO()
             save_image.save(byteIO, format='jpeg')
             byteArr = byteIO.getvalue()
 
             # cloudinary에 업로드
-            cloudinary.uploader.upload(byteArr, folder="post/")
+            res = cloudinary.uploader.upload(byteArr, folder="post/", public_id=output_name)
             result = {
                 'error': '0',
                 'message': 'Successful',
-                'output_name': output_name ## new Date().valueOf() + calcUtil.getNand(10) 이 되어야 한다. (이름 형식)
+                'name': output_name,
+                'type': ("{}/{}".format(res['resource_type'], res['format'])),
+                'path': res['secure_url']
             }
         else:
             result = {

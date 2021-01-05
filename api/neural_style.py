@@ -15,6 +15,7 @@ import copy
 from io import BytesIO
 import requests
 
+
 def download(url):
     response = requests.get(url)
     binary_data = response.content
@@ -27,36 +28,35 @@ def download(url):
 def image_loader(image_name):
     # GPU환경으로 돌릴 수 있는 경우 cuda로, 아닐경우 cpu로 시작 => GPU환경이 좋아서 검사하는거라고함
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    
+
     # cuda일 경우(=GPU환경이란 소리) 더 좋은 환경이기 떄문에 사이즈를 512로, 아니면 작은 128로
     imsize = 512 if torch.cuda.is_available() else 128  # use small size if no gpu
 
     loader = transforms.Compose([
-        transforms.Resize((imsize,imsize)),  # 불러올 이미지 사이즈를 위의 imsize로 수정
-        transforms.ToTensor()])     # 수정한 아이를 torch tensor로 변형
+        transforms.Resize((imsize, imsize)),  # 불러올 이미지 사이즈를 위의 imsize로 수정
+        transforms.ToTensor()])  # 수정한 아이를 torch tensor로 변형
     image = download(image_name)
     image = Image.open(image).convert('RGB')
     # 네트워크 사용하려면 fake batch를 통해 차원을 맞춰줍니다
     image = loader(image)
     image = image.unsqueeze(0)
-    
-    return image.to(device, torch.float)
 
+    return image.to(device, torch.float)
 
 
 def imshow(tensor, title=None):
     # 사본을 PIL형식으로 변환 후, plt.imshow()를 통해 이미지를 올바르게 가져왔는지 확인
-    unloader = transforms.ToPILImage()  #PIL이미지로 변경
+    unloader = transforms.ToPILImage()  # PIL이미지로 변경
     plt.ion()
 
     image = tensor.cpu().clone()  # 이미지를 복제하여 원본 손상 방지
-    image = image.squeeze(0)      # 아까 생성했던 fake batch 삭제
+    image = image.squeeze(0)  # 아까 생성했던 fake batch 삭제
     image = unloader(image)
     plt.imshow(image)
     if title is not None:
         plt.title(title)
     plt.pause(0.001)  # linux환경에서는 pause하지 않으면 그림이 갱신되지 않는다고 함
-                      # Mac은 하든 안하든 노상관
+    # Mac은 하든 안하든 노상관
 
     plt.ioff()
     plt.show()
@@ -69,18 +69,17 @@ def imshow(tensor, title=None):
 # imshow(content_img, title='Content Image')
 
 
+# content loss는 개별layer를 위한 content거리의 weighted 버전이라고 합니다. 음? 어렵네
 
-#content loss는 개별layer를 위한 content거리의 weighted 버전이라고 합니다. 음? 어렵네
+# 이 함수는 input X에 대한 layer L의 feature map을 취하고
+# X와 content C 사이의 weighted 거리를 반환 (W*D)
 
-#이 함수는 input X에 대한 layer L의 feature map을 취하고
-#X와 content C 사이의 weighted 거리를 반환 (W*D)
-
-#계산된 loss는 nn.Module의 매개변수로 저장
+# 계산된 loss는 nn.Module의 매개변수로 저장
 class ContentLoss(nn.Module):
 
     def __init__(self, target, ):
         super(ContentLoss, self).__init__()
-        
+
         # dynamic하게 gradient를 계산하기 위해 detach 함
         # => 변수가 아닌 명시된 값 (target은 고정값이라는 소리일까?)
         # 이유 : 전달할때 오류생긴다고 함 자세한건 모르겠음
@@ -89,7 +88,6 @@ class ContentLoss(nn.Module):
     def forward(self, input):
         self.loss = F.mse_loss(input, self.target)
         return input
-
 
 
 def gram_matrix(input):
@@ -132,7 +130,7 @@ class Normalization(nn.Module):
     def forward(self, img):
         # normalize img
         return (img - self.mean) / self.std
-        
+
 
 # desired depth layers to compute style/content losses :
 content_layers_default = ['conv_1']
@@ -143,7 +141,6 @@ def get_style_model_and_losses(cnn, normalization_mean, normalization_std,
                                style_img, content_img,
                                content_layers=content_layers_default,
                                style_layers=style_layers_default):
-    
     # GPU환경으로 돌릴 수 있는 경우 cuda로, 아닐경우 cpu로 시작 => GPU환경이 좋아서 검사하는거라고함
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -216,6 +213,7 @@ def get_input_optimizer(input_img):
     optimizer = optim.LBFGS([input_img.requires_grad_()])
     return optimizer
 
+
 def run_style_transfer(cnn, normalization_mean, normalization_std,
                        content_img, style_img, input_img, num_steps=350,
                        style_weight=1000000, content_weight=1):
@@ -255,7 +253,7 @@ def run_style_transfer(cnn, normalization_mean, normalization_std,
                 print("run {}:".format(run))
                 print('Style Loss : {:4f} Content Loss: {:4f}'.format(
                     style_score.item(), content_score.item()))
-                #.item()
+                # .item()
                 print()
 
             return style_score + content_score
@@ -266,14 +264,14 @@ def run_style_transfer(cnn, normalization_mean, normalization_std,
     input_img.data.clamp_(0, 1)
 
     return input_img
-    
+
+
 def set_neural_style(content_image, style_image):
-    
     # GPU환경으로 돌릴 수 있는 경우 cuda로, 아닐경우 cpu로 시작 => GPU환경이 좋아서 검사하는거라고함
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    #모델 import
+    # 모델 import
     cnn = models.vgg19(pretrained=True).features.to(device).eval()
-    #.features
+    # .features
     cnn_normalization_mean = torch.tensor([0.485, 0.456, 0.406]).to(device)
     cnn_normalization_std = torch.tensor([0.229, 0.224, 0.225]).to(device)
 
@@ -281,14 +279,13 @@ def set_neural_style(content_image, style_image):
     content_img = image_loader(content_image)
 
     assert style_img.size() == content_img.size(), \
-    "we need to import style and content images of the same size"
+        "we need to import style and content images of the same size"
 
     # if you want to use white noise instead uncomment the below line:
     # input_img = torch.randn(content_img.data.size(), device=device)
     input_img = content_img.clone()
 
     return cnn, cnn_normalization_mean, cnn_normalization_std, style_img, content_img, input_img
-
 
 # if __name__== '__main__':
 #     run_neural_style('dog','crying')
