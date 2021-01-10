@@ -31,25 +31,15 @@ def index_page(request):
 @api_view(['POST'])
 def bletcher_mix(request):
     try:
-        # context = ssl._create_unverified_context()
-        # # r1 = urlopen(request, context=context)
-        #
         content_url = request.data.get('content_image_path', None)
         style_url = request.data.get('style_image_path', None)
         mix_image_name = request.data.get('mix_image_name', None)
         fields = [content_url, style_url, mix_image_name]
 
         if not None in fields:
-            print("url find")
-            # Datapreprocessing Convert the values to float
-            # content_url = content_url.decode('utf-8')
-            # style_url = style_url.decode('utf-8')
-            # content_user = content_user.decode('utf-8')
-            # style_user = style_user.decode('utf-8')
-
-            print("content : {}".format(content_url))
-            print("style : {}".format(style_url))
-            print("name : {}".format(mix_image_name))
+            print("content url : {}".format(content_url))
+            print("style url : {}".format(style_url))
+            print("output name : {}".format(mix_image_name))
 
             cnn, cnn_normalization_mean, cnn_normalization_std, style_img, content_img, input_img = ns.set_neural_style(
                 content_url, style_url)
@@ -63,18 +53,17 @@ def bletcher_mix(request):
 
             # output_name : 저장할 파일 이름
             output_name = "{}".format(mix_image_name)
-            print("output name : {}".format(output_name))
-            print()
+            print("output name : {}\n".format(output_name))
 
             unloader = transforms.ToPILImage()
-            save_image = unloader(tensor_img)  # 아까 생성했던 fake batch 삭제
+            save_image = unloader(tensor_img)  # fake batch 삭제
 
             byteIO = io.BytesIO()
             save_image.save(byteIO, format='jpeg')
             byteArr = byteIO.getvalue()
 
             # cloudinary에 업로드
-            res = cloudinary.uploader.upload(byteArr, folder="post/", public_id=output_name)
+            res = cloudinary.uploader.upload(byteArr, folder="post/mix", public_id=output_name)
             result = {
                 'error': '0',
                 'message': 'Successful',
