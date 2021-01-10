@@ -8,15 +8,11 @@ from api import neural_style as ns
 from PIL import Image
 from torchvision.utils import save_image
 import torchvision.transforms as transforms
-import cloudinary
-import cloudinary.api
+
 import cloudinary.uploader
+
 import io
 from urllib.request import urlopen
-import ssl
-
-
-# Create your views here.
 
 
 @api_view(['GET'])
@@ -34,6 +30,7 @@ def bletcher_mix(request):
         content_url = request.data.get('content_image_path', None)
         style_url = request.data.get('style_image_path', None)
         mix_image_name = request.data.get('mix_image_name', None)
+        
         fields = [content_url, style_url, mix_image_name]
 
         if not None in fields:
