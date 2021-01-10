@@ -14,6 +14,9 @@ import cloudinary
 from pathlib import Path
 import os
 
+import django_heroku
+# Activate Django-Heroku.
+django_heroku.settings(locals())
 
 import environ
 root = environ.Path(__file__) # three folder back (/a/b/c/ - 3 = /)
