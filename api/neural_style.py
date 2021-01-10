@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 
 import torchvision.transforms as transforms
 import torchvision.models as models
-from torchvision.utils import save_image
 import copy
+
 from io import BytesIO
 import requests
 
@@ -19,13 +19,15 @@ import requests
 def download(url):
     response = requests.get(url)
     binary_data = response.content
+    
     temp_file = BytesIO()
     temp_file.write(binary_data)
     temp_file.seek(0)
+
     return temp_file
 
 
-def image_loader(image_name):
+def image_loader(image_path):
     # GPU환경으로 돌릴 수 있는 경우 cuda로, 아닐경우 cpu로 시작 => GPU환경이 좋아서 검사하는거라고함
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -35,46 +37,23 @@ def image_loader(image_name):
     loader = transforms.Compose([
         transforms.Resize((imsize, imsize)),  # 불러올 이미지 사이즈를 위의 imsize로 수정
         transforms.ToTensor()])  # 수정한 아이를 torch tensor로 변형
-    image = download(image_name)
+    
+    image = download(image_path)
     image = Image.open(image).convert('RGB')
+    
     # 네트워크 사용하려면 fake batch를 통해 차원을 맞춰줍니다
     image = loader(image)
     image = image.unsqueeze(0)
 
     return image.to(device, torch.float)
 
+'''
+content loss : 개별layer를 위한 content거리의 weighted 버전
 
-def imshow(tensor, title=None):
-    # 사본을 PIL형식으로 변환 후, plt.imshow()를 통해 이미지를 올바르게 가져왔는지 확인
-    unloader = transforms.ToPILImage()  # PIL이미지로 변경
-    plt.ion()
-
-    image = tensor.cpu().clone()  # 이미지를 복제하여 원본 손상 방지
-    image = image.squeeze(0)  # 아까 생성했던 fake batch 삭제
-    image = unloader(image)
-    plt.imshow(image)
-    if title is not None:
-        plt.title(title)
-    plt.pause(0.001)  # linux환경에서는 pause하지 않으면 그림이 갱신되지 않는다고 함
-    # Mac은 하든 안하든 노상관
-
-    plt.ioff()
-    plt.show()
-
-
-# plt.figure()
-# imshow(style_img, title='Style Image')
-
-# plt.figure()
-# imshow(content_img, title='Content Image')
-
-
-# content loss는 개별layer를 위한 content거리의 weighted 버전이라고 합니다. 음? 어렵네
-
-# 이 함수는 input X에 대한 layer L의 feature map을 취하고
-# X와 content C 사이의 weighted 거리를 반환 (W*D)
-
-# 계산된 loss는 nn.Module의 매개변수로 저장
+def ContentLoss(nn.Module): input X에 대한 layer L의 feature map을 취하고 \
+                            X와 content C 사이의 weighted 거리를 반환 (W*D)\
+                            계산된 loss는 nn.Module의 매개변수로 저장
+'''
 class ContentLoss(nn.Module):
 
     def __init__(self, target, ):
@@ -217,6 +196,7 @@ def get_input_optimizer(input_img):
 def run_style_transfer(cnn, normalization_mean, normalization_std,
                        content_img, style_img, input_img, num_steps=350,
                        style_weight=1000000, content_weight=1):
+    
     """Run the style transfer."""
     print('Building the style transfer model..')
     model, style_losses, content_losses = get_style_model_and_losses(cnn,
@@ -225,6 +205,7 @@ def run_style_transfer(cnn, normalization_mean, normalization_std,
     optimizer = get_input_optimizer(input_img)
 
     print('Optimizing..')
+    
     run = [0]
     while run[0] <= num_steps:
 
@@ -253,7 +234,6 @@ def run_style_transfer(cnn, normalization_mean, normalization_std,
                 print("run {}:".format(run))
                 print('Style Loss : {:4f} Content Loss: {:4f}'.format(
                     style_score.item(), content_score.item()))
-                # .item()
                 print()
 
             return style_score + content_score
@@ -266,26 +246,31 @@ def run_style_transfer(cnn, normalization_mean, normalization_std,
     return input_img
 
 
-def set_neural_style(content_image, style_image):
+def set_neural_style(style_image, content_image):
+    
     # GPU환경으로 돌릴 수 있는 경우 cuda로, 아닐경우 cpu로 시작 => GPU환경이 좋아서 검사하는거라고함
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
     # 모델 import
+    # VGG19 : models.resnet50(pretrained=True).features.to(device).eval()
+    # resnet50 : models.resnet50(pretrained=True).to(device).eval() 
     cnn = models.resnet50(pretrained=True).to(device).eval()
-    # .features
+    
+    # param 설정
     cnn_normalization_mean = torch.tensor([0.485, 0.456, 0.406]).to(device)
     cnn_normalization_std = torch.tensor([0.229, 0.224, 0.225]).to(device)
 
+    # 이미지 가져오기
     style_img = image_loader(style_image)
     content_img = image_loader(content_image)
 
+    # 합성하려는 두 이미지의 사이즈가 같아야만 함 (모델의 한계)
     assert style_img.size() == content_img.size(), \
         "we need to import style and content images of the same size"
 
-    # if you want to use white noise instead uncomment the below line:
+    # 현재 input_img로서 content img를 복사했지만, 만약 화이트 노이즈를 사용하고 싶다면
     # input_img = torch.randn(content_img.data.size(), device=device)
     input_img = content_img.clone()
 
     return cnn, cnn_normalization_mean, cnn_normalization_std, style_img, content_img, input_img
 
-# if __name__== '__main__':
-#     run_neural_style('dog','crying')
