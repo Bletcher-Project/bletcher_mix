@@ -25,10 +25,10 @@ environ.Env.read_env() # .env 파일이 있으면 읽음
 SITE_ROOT = root()
 
 # False if not in os.environ
-DEBUG = 'DEBUG'
+DEBUG = env('DEBUG')
 
 # Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
-SECRET_KEY = 'SECRET_KEY'
+SECRET_KEY = env('SECRET_KEY')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -102,10 +102,10 @@ DATABASES = {
 # Cloudinary
 
 cloudinary.config(
-    cloud_name='CLOUD_NAME',
-    api_key='API_KEY',
-    api_secret='API_SECRET',
-    secure='SECURE'
+    cloud_name=env('CLOUD_NAME'),
+    api_key=env('API_KEY'),
+    api_secret=env('API_SECRET'),
+    secure=env('SECURE')
 )
 
 MEDIA_URL = '/media/'
