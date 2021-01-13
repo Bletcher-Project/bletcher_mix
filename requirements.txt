@@ -7,6 +7,7 @@ gunicorn==20.0.4
 whitenoise==5.2.0
 psycopg2
 django-heroku==0.3.1
+
 numpy~=1.19.4
 cloudinary~=1.23.0
 Pillow~=8.0.1
