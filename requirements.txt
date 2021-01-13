@@ -1,12 +1,12 @@
 Django==3.1.3
 djangorestframework==3.12.2
-# https://download.pytorch.org/whl/cpu/torchvision-0.6.0%2Bcpu-cp36-cp36m-linux_x86_64.whl
-# https://download.pytorch.org/whl/cpu/torch-1.5.0%2Bcpu-cp36-cp36m-linux_x86_64.whl
+https://download.pytorch.org/whl/cpu/torchvision-0.6.0%2Bcpu-cp36-cp36m-linux_x86_64.whl
+https://download.pytorch.org/whl/cpu/torch-1.5.0%2Bcpu-cp36-cp36m-linux_x86_64.whl
 matplotlib~=3.3.3
 gunicorn==20.0.4
-django-heroku==0.3.1
 whitenoise==5.2.0
-# psycopg2
+psycopg2
+
 numpy~=1.19.4
 cloudinary~=1.23.0
 Pillow~=8.0.1
