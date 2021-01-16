@@ -11,7 +11,6 @@ Bletcher Project's **python server repository** for running AI and communication
 - pytorch
 - Heroku
 <br/>
-<br/>
 
 ## environment
 
