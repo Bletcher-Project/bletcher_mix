@@ -1,4 +1,4 @@
-# Bletcher-mix
+# Bletcher-mix(V1.0)
 
 Bletcher Project's **python server repository** for running AI and communication.
 
