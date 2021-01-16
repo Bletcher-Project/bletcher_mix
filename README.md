@@ -33,6 +33,7 @@ https://bletcher-mix.herokuapp.com/
 then, you can see our api server Index-Page
 <br/>
 <br/>
+<br/>
 
 ## Run Locally(Development Mode)
 
@@ -77,7 +78,6 @@ If you want a better completeness, please refer to the comments in **neural-styl
 ## Reference
 1. neural-style.py
 <br/>
-
 Our AI code was referenced [**here**](https://pytorch.org/tutorials/advanced/neural_style_tutorial.html) and modified to suit our needs.
 
 
