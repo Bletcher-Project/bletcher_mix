@@ -2,7 +2,7 @@
 
 ![image](./README_image/nst_example.jpeg)
 
-[Neural Style Transfer](https://pytorch.org/tutorials/advanced/neural_style_tutorial.html) 알고리즘을 이용한 이미지 합성을 요청할 수 있는 Python Server 입니다.
+Neural Style Transfer 알고리즘을 이용한 이미지 합성을 요청할 수 있는 Python Django Server 입니다.
 
 _🚀 Version 1.0.0 Released_
 
@@ -40,7 +40,7 @@ cnn = models.vgg19(pretrained=True).features.to(device).eval()
 
 ### Run Locally (Development Mode)
 
-이는 [**bletcher-back**](https://github.com/Bletcher-Project/bletcher-back), Heroku, Cloudinary 등의 서비스와 연결이 필수적이고 해당 서비스들에게 최적화되어 있습니다. 실행하려면 최소한 bletcher-back server의 실행과 Cloudinary 연동이 필요합니다.
+이는 [bletcher-back](https://github.com/Bletcher-Project/bletcher-back), Heroku, Cloudinary 등의 서비스와 연결이 필수적이고 해당 서비스들에게 최적화되어 있습니다. 실행하려면 최소한 bletcher-back server의 실행과 Cloudinary 연동이 필요합니다.
 
 1. `./bletcher_mix/` 경로의 [.env.example](./bletcher_mix/.env.example)를 참고하여 `.env` 파일을 생성합니다.
 2. 터미널에서 `python manage.py runserver`를 실행합니다.
