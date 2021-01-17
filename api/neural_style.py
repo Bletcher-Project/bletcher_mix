@@ -16,7 +16,7 @@ import requests
 def download(url):
     response = requests.get(url)
     binary_data = response.content
-    
+
     temp_file = BytesIO()
     temp_file.write(binary_data)
     temp_file.seek(0)
@@ -26,12 +26,12 @@ def download(url):
 
 def image_loader(image_path):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    imsize = 512 if torch.cuda.is_available() else 128 
+    imsize = 512 if torch.cuda.is_available() else 128
 
     loader = transforms.Compose([
         transforms.Resize((imsize, imsize)),
-        transforms.ToTensor()]) 
-    
+        transforms.ToTensor()])
+
     image = download(image_path)
     image = Image.open(image).convert('RGB')
     image = loader(image)
@@ -42,8 +42,8 @@ def image_loader(image_path):
 
 def gram_matrix(input):
     a, b, c, d = input.size()
-    features = input.view(a * b, c * d) 
-    G = torch.mm(features, features.t())  
+    features = input.view(a * b, c * d)
+    G = torch.mm(features, features.t())
 
     return G.div(a * b * c * d)
 
@@ -72,7 +72,7 @@ class StyleLoss(nn.Module):
 class Normalization(nn.Module):
     def __init__(self, mean, std):
         super(Normalization, self).__init__()
-    
+
         self.mean = torch.tensor(mean).view(-1, 1, 1)
         self.std = torch.tensor(std).view(-1, 1, 1)
 
@@ -85,8 +85,6 @@ class Normalization(nn.Module):
 # style_layers_default = ['conv_1', 'conv_2', 'conv_3', 'conv_4', 'conv_5']
 
 # resnet50 ver.
-# content_layers_default = ['conv_1']
-# style_layers_default = ['conv_1', 'conv_2', 'conv_3', 'conv_4', 'conv_5']
 content_layers_default = ['conv_1']
 style_layers_default = ['conv_1', 'conv_2', 'conv_3', 'conv_4', 'conv_5']
 
@@ -99,15 +97,16 @@ def get_style_model_and_losses(cnn, normalization_mean, normalization_std,
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     cnn = copy.deepcopy(cnn)
-    
-    normalization = Normalization(normalization_mean, normalization_std).to(device)
+
+    normalization = Normalization(
+        normalization_mean, normalization_std).to(device)
 
     content_losses = []
     style_losses = []
 
     model = nn.Sequential(normalization)
 
-    i = 0  
+    i = 0
     for layer in cnn.children():
         if isinstance(layer, nn.Conv2d):
             i += 1
@@ -126,7 +125,8 @@ def get_style_model_and_losses(cnn, normalization_mean, normalization_std,
         elif isinstance(layer, nn.AdaptiveAvgPool2d):
             name = 'adap_{}'.format(i)
         else:
-            raise RuntimeError('Unrecognized layer: {}'.format(layer.__class__.__name__))
+            raise RuntimeError('Unrecognized layer: {}'.format(
+                layer.__class__.__name__))
 
         model.add_module(name, layer)
 
@@ -153,14 +153,14 @@ def get_style_model_and_losses(cnn, normalization_mean, normalization_std,
 
 def get_input_optimizer(input_img):
     optimizer = optim.LBFGS([input_img.requires_grad_()])
-    
+
     return optimizer
 
 
 def run_style_transfer(cnn, normalization_mean, normalization_std,
                        content_img, style_img, input_img, num_steps=350,
                        style_weight=1000000, content_weight=1):
-    
+
     print('Building the style transfer model..')
     model, style_losses, content_losses = get_style_model_and_losses(cnn,
                                                                      normalization_mean, normalization_std, style_img,
@@ -168,7 +168,7 @@ def run_style_transfer(cnn, normalization_mean, normalization_std,
     optimizer = get_input_optimizer(input_img)
 
     print('Optimizing..')
-    
+
     run = [0]
     while run[0] <= num_steps:
 
@@ -208,16 +208,15 @@ def run_style_transfer(cnn, normalization_mean, normalization_std,
 
 
 def set_neural_style(style_image, content_image):
-    
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    
+
     # VGG19 ver.
-    # cnn = models.resnet50(pretrained=True).features.to(device).eval()
-    
+    # cnn = models.vgg19(pretrained=True).features.to(device).eval()
+
     # resnet50 ver.
-    # cnn = models.resnet50(pretrained=True).to(device).eval() 
     cnn = models.resnet50(pretrained=True).to(device).eval()
-    
+
     cnn_normalization_mean = torch.tensor([0.485, 0.456, 0.406]).to(device)
     cnn_normalization_std = torch.tensor([0.229, 0.224, 0.225]).to(device)
 
