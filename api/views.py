@@ -1,14 +1,11 @@
+import io
+from cloudinary.uploader import upload
+import torchvision.transforms as transforms
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from torchvision.utils import save_image
-from torchvision import transforms
-
-from cloudinary.uploader import upload
-
 from api import neural_style as ns
-
-import io
 
 
 @api_view(['GET'])
@@ -17,7 +14,6 @@ def index_page(request):
         "error": "0",
         "message": "Successful",
     }
-
     return Response(return_data)
 
 
@@ -54,24 +50,28 @@ def bletcher_mix(request):
             byteArr = byteIO.getvalue()
 
             res = upload(byteArr, folder="post/mix", public_id=output_name)
-            
-            result = {
-                'error': '0',
-                'message': 'Successful',
-                'name': output_name,
-                'type': ("{}/{}".format(res['resource_type'], res['format'])),
-                'path': res['secure_url']
-            }
+
+            if res:
+                result = {
+                    'error': 0,
+                    'message': 'Successful',
+                    'name': output_name,
+                    'type': ("{}/{}".format(res['resource_type'], res['format'])),
+                    'path': res['secure_url']
+                }
+                resStatus = status.HTTP_200_OK
         else:
             result = {
-                'error': '1',
+                'error': 1,
                 'message': 'Invalid Parameters'
             }
-
+            resStatus = status.HTTP_400_BAD_REQUEST
     except Exception as e:
         result = {
-            'error': '2',
+            'error': 2,
             "message": str(e)
         }
+        resStatus = status.HTTP_500_INTERNAL_SERVER_ERROR
 
-    return Response(result)
+    print("Response : {}\n".format(result))
+    return Response(result, status=resStatus)
