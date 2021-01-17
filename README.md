@@ -14,7 +14,7 @@ _🚀 Version 1.0.0 Released_
 
 ## environment
 
-> [requirements](./requirements/txt) 참고
+> [requirements](./requirements.txt) 참고
 
 - python 3.8.5
 - torch(cpu-only) 1.5.0
