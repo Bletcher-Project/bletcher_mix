@@ -1,6 +1,6 @@
 # Bletcher - Mix (Neural Style Transfer)
 
-<img src"./README_image/nst_example.jpeg" alt="nst-example" align="center" />
+![image](./README_image/nst_example.jpeg)
 
 [Neural Style Transfer](https://pytorch.org/tutorials/advanced/neural_style_tutorial.html) 알고리즘을 이용한 이미지 합성을 요청할 수 있는 Python Server 입니다.
 
