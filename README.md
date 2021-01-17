@@ -1,88 +1,53 @@
-# Bletcher-mix(V1.0)
+# Bletcher - Mix (Neural Style Transfer)
 
-Bletcher Project's **python server repository** for running AI and communication.
-<br/>
-<br/>
+<img src"./README_image/nst_example.jpeg" alt="nst-example" align="center" />
+
+[Neural Style Transfer](https://pytorch.org/tutorials/advanced/neural_style_tutorial.html) 알고리즘을 이용한 이미지 합성을 요청할 수 있는 Python Server 입니다.
+
+_🚀 Version 1.0.0 Released_
 
 ## Technology
 
-- django
-- python3
-- pytorch
+- PyTorch
+- Django
 - Heroku
-<br/>
 
 ## environment
 
-- python                3.8.5
-- torch(cpu-only)       1.5.0
+> [requirements](./requirements/txt) 참고
+
+- python 3.8.5
+- torch(cpu-only) 1.5.0
 - torchvision(cpu-only) 0.6.0
-- django                3.1.4
-<br/>
-<br/>
+- django 3.1.3
 
 ## Run
 
-Bletcher-mix uses **Heroku** which is "Cloud Service" and it is communicating with Bletcher-back
+Heroku Cloud PaaS를 사용해 배포되어 있습니다. [https://bletcher-mix.herokuapp.com/](https://bletcher-mix.herokuapp.com/)의 `/synthesizing` 라우터로 요청합니다.
 
-We release Ver.1.0 on Heroku.
-```bash
-https://bletcher-mix.herokuapp.com/
+CNN 모델로 **VGG19** 모델을 사용했을 때 최적의 성능을 볼 수 있습니다. 그러나 Heroku 서버의 무료 사용 용량 제한으로 **Resnet50** 모델로 임시 배포되어 있습니다.
+
+VGG19 모델을 통해 실행 결과를 보고 싶다면 [neural_style.py](./api/neural_style.py) 파일을 열어 layer와 model을 다음과 같이 수정해야 합니다.
+
+```python
+# VGG19 ver. Layer (line 83-89)
+content_layers_default = ['conv_3']
+style_layers_default = ['conv_1', 'conv_2', 'conv_3', 'conv_4', 'conv_5']
+
+# VGG19 ver. Model (line 214-218)
+cnn = models.vgg19(pretrained=True).features.to(device).eval()
 ```
-then, you can see our api server Index-Page
-<br/>
-<br/>
-<br/>
 
-## Run Locally(Development Mode)
+### Run Locally (Development Mode)
 
-when you want to run AI python server locally, 
+이는 [**bletcher-back**](https://github.com/Bletcher-Project/bletcher-back), Heroku, Cloudinary 등의 서비스와 연결이 필수적이고 해당 서비스들에게 최적화되어 있습니다. 실행하려면 최소한 bletcher-back server의 실행과 Cloudinary 연동이 필요합니다.
 
-1. Clone [**bletcher-back**](https://github.com/Bletcher-Project/bletcher-back) repository
-```bash
-git clone [Bletcher-back repository address]
-```
-<br/>
-
-2. Refer to bletcher-back's **README.md** and run the server.
-<br/>
-
-3. Clone [**bletcher-mix**](https://github.com/Bletcher-Project/bletcher_mix) repository 
-```bash
-git clone [Bletcher-mix repository address]
-```
-<br/>
-
-4. Go to the repository
-```bash
-cd bletcher_mix
-```
-<br/>
-
-5. Enter following line
-```bash
-python manage.py runserver
-```
-<br/>
-
-6. Refer to bletcher-back [**WIKI**](https://github.com/Bletcher-Project/bletcher-back/wiki) and run it locally with [**POSTMAN**](https://www.postman.com/)
-<br/>
-<br/>
-
-> The original model VGG19 was modified from VGG19 to resnet50 due to the capacity limitation caused by Heroku free use.
-If you want a better completeness, please refer to the comments in **neural-style.py** and modify it
-<br/>
-<br/>
+1. `./bletcher_mix/` 경로의 [.env.example](./bletcher_mix/.env.example)를 참고하여 `.env` 파일을 생성합니다.
+2. 터미널에서 `python manage.py runserver`를 실행합니다.
+3. [**bletcher-back**](https://github.com/Bletcher-Project/bletcher-back) repository를 clone하고 해당 python 서버에 `/synthesizing` 라우터로 요청합니다.
 
 ## Reference
-1. neural-style.py
-<br/>
-Our AI code was referenced here(https://pytorch.org/tutorials/advanced/neural_style_tutorial.html)
-and modified to suit our needs.
 
-
-
-
-
-
-
+- [A Neural Algorithm of Artistic Style - Leon A. Gatys, Alexander S. Ecker, Matthias Bethge](https://arxiv.org/abs/1508.06576)
+- [alexis-jacq/Pytorch-Tutorials](https://github.com/alexis-jacq/Pytorch-Tutorials)
+- [NEURAL TRANSFER USING PYTORCH by Alexis Jacq - Winston Herring](https://pytorch.org/tutorials/advanced/neural_style_tutorial.html)
