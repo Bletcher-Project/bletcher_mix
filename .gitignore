@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/django
 # Edit at https://www.toptal.com/developers/gitignore?templates=django
 
+.DS_Store
+*/.DS_Store
+
 ### Django ###
 *.log
 *.pot
@@ -10,7 +13,6 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 media
-
 
 ### idea ###
 .idea/

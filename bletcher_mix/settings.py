@@ -16,11 +16,11 @@ import os
 
 import environ
 env = environ.Env(DEBUG=(bool, False))
-root = environ.Path(__file__) # three folder back (/a/b/c/ - 3 = /)
- # set casting, default value
+root = environ.Path(__file__)  # three folder back (/a/b/c/ - 3 = /)
+# set casting, default value
 
 # reading .env file
-environ.Env.read_env() # .env 파일이 있으면 읽음
+environ.Env.read_env()
 
 
 SITE_ROOT = root()
