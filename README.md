@@ -24,11 +24,12 @@ _🚀 Version 1.0.0 Released_
 ## Run
 
 Heroku Cloud PaaS를 사용해 배포되어 있습니다. [https://bletcher-mix.herokuapp.com/](https://bletcher-mix.herokuapp.com/)의 `/synthesizing` 라우터로 요청합니다.
+CNN 모델로 **VGG19** 모델을 사용했을 때 최적의 성능을 볼 수 있습니다.
 
-CNN 모델로 **VGG19** 모델을 사용했을 때 최적의 성능을 볼 수 있습니다. 그러나 Heroku 서버의 무료 사용 용량 제한으로 **Resnet50** 모델로 임시 배포되어 있습니다.
+> version 1.0 : Heroku 서버의 무료 사용 용량 제한으로 **Resnet50** 모델로 임시 배포되어 있습니다.
+> version 1.1 : Oracle Cloud 에 배포되어있고, **VGG19** 모델로 배포되어있습니다.
 
-VGG19 모델을 통해 실행 결과를 보고 싶다면 [neural_style.py](./api/neural_style.py) 파일을 열어 layer와 model을 다음과 같이 수정해야 합니다.
-
+#### VGG19 모델을 통해 실행 결과를 보고 싶다면 [neural_style.py](./api/neural_style.py) 파일을 열어 layer와 model을 다음과 같이 수정해야 합니다.
 ```python
 # VGG19 ver. Layer (line 83-89)
 content_layers_default = ['conv_3']
@@ -36,6 +37,17 @@ style_layers_default = ['conv_1', 'conv_2', 'conv_3', 'conv_4', 'conv_5']
 
 # VGG19 ver. Model (line 214-218)
 cnn = models.vgg19(pretrained=True).features.to(device).eval()
+```
+
+#### Resnet50 모델을 통해 실행 결과를 보고 싶다면 [neural_style.py](./api/neural_style.py) 파일을 열어 layer와 model을 다음과 같이 수정해야 합니다.
+
+```python
+# resnet50 ver. Layer (line 83-89)
+content_layers_default = ['conv_1']
+style_layers_default = ['conv_1', 'conv_2', 'conv_3', 'conv_4', 'conv_5']
+
+# resnet50 ver. Model (line 214-218)
+cnn = models.resnet50(pretrained=True).to(device).eval()
 ```
 
 ### Run Locally (Development Mode)
