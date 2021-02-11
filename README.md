@@ -29,7 +29,7 @@ Heroku Cloud PaaS를 사용해 배포되어 있습니다. [https://bletcher-mix.
 
 ## Run version 1.1
 
-Oracle Cloud 에 배포되어 있습니다. [http://ip:8000]의 '/synthesizing'라우터로 요청합니다.
+Oracle Cloud 에 배포되어 있습니다. [http://ip:8000]의 `/synthesizing`라우터로 요청합니다.
 
 > version 1.1 : Oracle Cloud 에 배포되어있고, **VGG19** 모델로 배포되어있습니다.
 
