@@ -81,12 +81,12 @@ class Normalization(nn.Module):
 
 
 # VGG19 ver.
-# content_layers_default = ['conv_3']
-# style_layers_default = ['conv_1', 'conv_2', 'conv_3', 'conv_4', 'conv_5']
+content_layers_default = ['conv_3']
+style_layers_default = ['conv_1', 'conv_2', 'conv_3', 'conv_4', 'conv_5']
 
 # resnet50 ver.
-content_layers_default = ['conv_1']
-style_layers_default = ['conv_1', 'conv_2', 'conv_3', 'conv_4', 'conv_5']
+# content_layers_default = ['conv_1']
+# style_layers_default = ['conv_1', 'conv_2', 'conv_3', 'conv_4', 'conv_5']
 
 
 def get_style_model_and_losses(cnn, normalization_mean, normalization_std,
@@ -212,10 +212,10 @@ def set_neural_style(style_image, content_image):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # VGG19 ver.
-    # cnn = models.vgg19(pretrained=True).features.to(device).eval()
+    cnn = models.vgg19(pretrained=True).features.to(device).eval()
 
     # resnet50 ver.
-    cnn = models.resnet50(pretrained=True).to(device).eval()
+    # cnn = models.resnet50(pretrained=True).to(device).eval()
 
     cnn_normalization_mean = torch.tensor([0.485, 0.456, 0.406]).to(device)
     cnn_normalization_std = torch.tensor([0.229, 0.224, 0.225]).to(device)
