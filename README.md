@@ -4,7 +4,7 @@
 
 Neural Style Transfer 알고리즘을 이용한 이미지 합성을 요청할 수 있는 Python Django Server 입니다.
 
-_🚀 Version 1.0.0 Released_
+_🚀 Version 1.1.0 Released_
 
 ## Technology
 
