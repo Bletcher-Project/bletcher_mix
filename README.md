@@ -112,8 +112,6 @@ All of source codes under our project are using [MIT License](http://opensource.
 - [alexis-jacq/Pytorch-Tutorials](https://github.com/alexis-jacq/Pytorch-Tutorials)
 - [NEURAL TRANSFER USING PYTORCH by Alexis Jacq - Winston Herring](https://pytorch.org/tutorials/advanced/neural_style_tutorial.html)
 
-- - -
-
 ## Contact
 
 - Name : Yoon GaYoung 
