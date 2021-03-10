@@ -44,9 +44,9 @@ _🚀 Version 1.1.0 Released_
 - Heroku timeout issue
   - [▶︎ Issue](https://github.com/Bletcher-Project/bletcher_mix/issues/6)
 
-## Run (수정 필요)
+## Run
 
-Oracle Cloud 에 배포되어 있습니다. `http://193.123.235.185:8000`의 `/synthesizing`라우터로 요청합니다.---
+이미지 합성 서버는 Django 어플리케이션으로 Oracle Cloud에 배포되어 있습니다. `http://193.123.235.185:8000`의 `/synthesizing/:originid/:subid` 라우터로 POST 요청합니다.
 
 ## Getting Started
 
