@@ -51,8 +51,7 @@ Oracle Cloud 에 배포되어 있습니다. `http://193.123.235.185:8000`의 `/s
 
 1. 터미널에서 `python manage.py runserver`를 실행합니다.
 2. [**bletcher-back**](https://github.com/Bletcher-Project/bletcher-back) repository를 clone하고 해당 python 서버에 `/synthesizing` 라우터로 요청합니다.
-
-❗️neural style은 pytorch기반 CNN 모델로 **VGG19** 모델을 사용했을 때 최적의 성능을 볼 수 있습니다.❗️
+</br>
 
 VGG19 모델을 통해 실행 결과를 보고 싶다면 [neural_style.py](./api/neural_style.py) 파일을 열어 layer와 model을 다음과 같이 수정해야 합니다.
 
@@ -75,6 +74,7 @@ style_layers_default = ['conv_1', 'conv_2', 'conv_3', 'conv_4', 'conv_5']
 # resnet50 ver. Model (line 214-218)
 cnn = models.resnet50(pretrained=True).to(device).eval()
 ```
+❗️❗️neural style은 pytorch기반 CNN 모델로 **VGG19** 모델을 사용했을 때 최적의 성능을 볼 수 있습니다.❗️❗️
 
 ### Contact
 
