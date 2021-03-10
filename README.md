@@ -22,7 +22,7 @@ Neural Style Transfer 알고리즘을 이용한 이미지 합성을 요청할 �
 - Heroku
 - Oracle Cloud
 
-<img src="./README_image/logic.png" alt="Logic" width="400" height="300"/>
+<img src="./README_image/logic.png" alt="Logic" width="800" height="600"/>
 
 
 ## Getting Started
