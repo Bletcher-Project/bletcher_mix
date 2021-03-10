@@ -27,8 +27,10 @@ _🚀 Version 1.1.0 Released_
 ## 프로젝트 배포
 
 - Cloudinary를 통한 Storage Upload
+
 - Heroku를 통한 어플리케이션 배포 
   - (▶︎ Pull Request)[https://github.com/Bletcher-Project/bletcher_mix/pull/5]
+
 - Oracle Cloud를 통한 어플리케이션 배포 
   - (▶︎ Issue)[https://github.com/Bletcher-Project/bletcher_mix/issues/7]
   - (▶︎ Issue)[https://github.com/Bletcher-Project/bletcher_mix/issues/8]
@@ -38,10 +40,8 @@ _🚀 Version 1.1.0 Released_
 
 - 두 이미지 합성 구현
   - pytorch 기반 neural-style기술을 활용한 이미지 합성
- 
 - 웹서버 구현
   - django를 이용하여 `/synthesizing`라우터를 통해 이미지 합성 및 이미지 백 클라우디너리에 결과 반환
-
 - 클라우드 배포
   - Heroku와 Oracle Cloud를 활용하여 항상 작동하는 서버 배포
 
