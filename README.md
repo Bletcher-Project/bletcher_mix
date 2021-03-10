@@ -6,7 +6,7 @@ _🚀 Version 1.1.0 Released_
 
 ![image](./README_image/nst_example.jpeg)
 
-(Bletcher Project)[https://github.com/Bletcher-Project/Bletcher]의 AI Repository 입니다. 인공지능 예술 웹 서비스 Bletcher의 AI서버입니다.
+[Bletcher Project](https://github.com/Bletcher-Project/Bletcher)의 AI Repository 입니다. 인공지능 예술 웹 서비스 Bletcher의 AI서버입니다.
 
 
 ## What we did...✍️
