@@ -114,8 +114,9 @@ All of source codes under our project are using [MIT License](http://opensource.
 
 ## Contact
 
-- Name : Yoon GaYoung 
-- Email : rkdud0925@hanyang.ac.kr
-- Instagram : @yoongoing 
+권혁진 - @KimKwon - khj9709@icloud.com <br />
+김동규 - @kimdg1105 - kimss7334@naver.com <br />
+서그림 - @Seogeurim - geulims@naver.com <br />
+윤가영 - @yoongoing - rkdud0925@hanyang.ac.kr <br />
 
 Project Link: [https://github.com/Bletcher-Project](https://github.com/Bletcher-Project)
