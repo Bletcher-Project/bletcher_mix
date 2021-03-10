@@ -18,7 +18,7 @@ _🚀 Version 1.1.0 Released_
 - Heroku
 - Oracle Cloud
 
-<img src="./README_image/logic.png" alt="Logic" width="700" height="500"/>
+![logic](./README_image/logic.jpeg)
 
 ## 프로젝트 배포
 
