@@ -2,11 +2,11 @@
 
 _🚀 Version 1.1.0 Released_
 
-# Bletcher - Mix (Neural Style Transfer)
+# Bletcher-Mix
 
 ![image](./README_image/nst_example.jpeg)
 
-Neural Style Transfer 알고리즘을 이용한 이미지 합성을 요청할 수 있는 Python Django Server 입니다.
+(Bletcher Project)[https://github.com/Bletcher-Project/Bletcher]의 AI Repository 입니다. 인공지능 예술 웹 서비스 Bletcher의 AI서버입니다.
 
 
 ## What we did...✍️
@@ -16,14 +16,39 @@ Neural Style Transfer 알고리즘을 이용한 이미지 합성을 요청할 �
 
 ## Technology
 
+<img src="./README_image/logic.png" alt="Logic" width="700" height="500"/>
+
 - Pytorch
 - Django
 - Cloudinary 
 - Heroku
 - Oracle Cloud
 
-<img src="./README_image/logic.png" alt="Logic" width="800" height="600"/>
+## 프로젝트 배포
 
+- Cloudinary를 통한 Storage Upload
+- Heroku를 통한 어플리케이션 배포 
+  - (▶︎ Pull Request)[https://github.com/Bletcher-Project/bletcher_mix/pull/5]
+- Oracle Cloud를 통한 어플리케이션 배포 
+  - (▶︎ Issue)[https://github.com/Bletcher-Project/bletcher_mix/issues/7]
+  - (▶︎ Issue)[https://github.com/Bletcher-Project/bletcher_mix/issues/8]
+  - (▶︎ Pull Request)[https://github.com/Bletcher-Project/bletcher_mix/pull/10]
+
+## 핵심기능
+
+- 두 이미지 합성 구현
+  - pytorch 기반 neural-style기술을 활용한 이미지 합성
+ 
+- 웹서버 구현
+  - django를 이용하여 `/synthesizing`라우터를 통해 이미지 합성 및 이미지 백 클라우디너리에 결과 반환
+
+- 클라우드 배포
+  - Heroku와 Oracle Cloud를 활용하여 항상 작동하는 서버 배포
+
+## 트러블 슈팅
+
+- Heroku timeout issue
+  - (▶︎ Issue)[https://github.com/Bletcher-Project/bletcher_mix/issues/6]
 
 ## Getting Started
 
@@ -42,12 +67,12 @@ Bletcher-mix는 Oracle Cloud에 배포되어있어 따로 환경을 구축할 �
 끝입니다. 쉽죠? 🥳
 </br>
 
-### Run
+## Run
 
 Oracle Cloud 에 배포되어 있습니다. `http://193.123.235.185:8000`의 `/synthesizing`라우터로 요청합니다.
 </br>
 
-### Run Locally 
+## Run Locally 
 이는 [bletcher-back](https://github.com/Bletcher-Project/bletcher-back), Heroku, Cloudinary 등의 서비스와 연결이 필수적이고 해당 서비스들에게 최적화되어 있습니다. 실행하려면 최소한 bletcher-back server의 실행과 Cloudinary 연동이 필요합니다.
 
 1. 터미널에서 `python manage.py runserver`를 실행합니다.
