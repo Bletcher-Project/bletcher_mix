@@ -27,14 +27,12 @@ _🚀 Version 1.1.0 Released_
 ## 프로젝트 배포
 
 - Cloudinary를 통한 Storage Upload
-
 - Heroku를 통한 어플리케이션 배포 
-  - (▶︎ Pull Request)[https://github.com/Bletcher-Project/bletcher_mix/pull/5]
-
+  - [▶︎ Pull Request](https://github.com/Bletcher-Project/bletcher_mix/pull/5)
 - Oracle Cloud를 통한 어플리케이션 배포 
-  - (▶︎ Issue)[https://github.com/Bletcher-Project/bletcher_mix/issues/7]
-  - (▶︎ Issue)[https://github.com/Bletcher-Project/bletcher_mix/issues/8]
-  - (▶︎ Pull Request)[https://github.com/Bletcher-Project/bletcher_mix/pull/10]
+  - [▶︎ Issue](https://github.com/Bletcher-Project/bletcher_mix/issues/7)
+  - [▶︎ Issue](https://github.com/Bletcher-Project/bletcher_mix/issues/8)
+  - [▶︎ Pull Request](https://github.com/Bletcher-Project/bletcher_mix/pull/10)
 
 ## 핵심기능
 
@@ -48,7 +46,7 @@ _🚀 Version 1.1.0 Released_
 ## 트러블 슈팅
 
 - Heroku timeout issue
-  - (▶︎ Issue)[https://github.com/Bletcher-Project/bletcher_mix/issues/6]
+  - [▶︎ Issue](https://github.com/Bletcher-Project/bletcher_mix/issues/6)
 
 ## Getting Started
 
