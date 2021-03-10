@@ -10,6 +10,8 @@ _👏 우리는 [bletcher-ml](https://github.com/Bletcher-Project/bletcher-ml) �
 
 _🚀 Version 1.1.0 Released_
 
+---
+
 ## Technology
 
 - Pytorch
@@ -43,6 +45,8 @@ _🚀 Version 1.1.0 Released_
 
 - Heroku timeout issue
   - [▶︎ Issue](https://github.com/Bletcher-Project/bletcher_mix/issues/6)
+
+---
 
 ## Run
 
@@ -94,6 +98,8 @@ style_layers_default = ['conv_1', 'conv_2', 'conv_3', 'conv_4', 'conv_5']
 cnn = models.resnet50(pretrained=True).to(device).eval()
 ```
 
+---
+
 ## Reference
 
 - [A Neural Algorithm of Artistic Style - Leon A. Gatys, Alexander S. Ecker, Matthias Bethge](https://arxiv.org/abs/1508.06576)
@@ -103,6 +109,8 @@ cnn = models.resnet50(pretrained=True).to(device).eval()
 ## License
 
 All of source codes under our project are using [MIT License](http://opensource.org/licenses/MIT).
+
+---
 
 ## Bletcher Team
 
