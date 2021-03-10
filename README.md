@@ -1,8 +1,6 @@
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Bletcher-Project/bletcher_mix?style=for-the-badge)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Bletcher-Project/bletcher_mix?style=for-the-badge) ![GitHub contributors](https://img.shields.io/github/contributors/Bletcher-Project/bletcher_mix?style=for-the-badge) [![GitHub issues](https://img.shields.io/github/issues/Bletcher-Project/bletcher_mix?style=for-the-badge)](https://github.com/Bletcher-Project/bletcher_mix/issues) [![GitHub license](https://img.shields.io/github/license/Bletcher-Project/bletcher_mix?style=for-the-badge)](https://github.com/Bletcher-Project/bletcher_mix/blob/main/LICENSE)
 
-_🚀 Version 1.1.0 Released_
-
-# Bletcher-Mix
+# Bletcher-Mix 👩🏻‍🎨
 
 ![image](./README_image/nst_example.jpeg)
 
@@ -11,6 +9,8 @@ _🚀 Version 1.1.0 Released_
 ## What we did...✍️
 
 👏👏 우리는 107개의 commit과 8개의 branch, 8개의 issue가 있었어요! 👏👏
+
+_🚀 Version 1.1.0 Released_
 
 ## Technology
 
