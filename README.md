@@ -6,12 +6,12 @@ _🚀 Version 1.1.0 Released_
 
 ![image](./README_image/nst_example.jpeg)
 
-[Bletcher Project](https://github.com/Bletcher-Project/Bletcher)의 AI Repository 입니다. 인공지능 예술 웹 서비스 Bletcher의 AI서버입니다.
+[Bletcher Project](https://github.com/Bletcher-Project/Bletcher)의 __AI Repository__ 입니다. 인공지능 예술 웹 서비스 __Bletcher의 AI서버입니다.__
 
 
 ## What we did...✍️
 
-우리는 107개의 commit과 8개의 branch 8개의 issue 가 있었어요!
+👏👏우리는 107개의 commit과 8개의 branch 8개의 issue 가 있었어요!👏👏
 
 
 ## Technology
@@ -101,12 +101,12 @@ cnn = models.resnet50(pretrained=True).to(device).eval()
 ❗️❗️neural style은 pytorch기반 CNN 모델로 **VGG19** 모델을 사용했을 때 최적의 성능을 볼 수 있습니다.❗️❗️
 </br>
 
-### License
+## License
 
 All of source codes under our project are using [MIT License](http://opensource.org/licenses/MIT).
 </br>
 
-### Reference
+## Reference
 
 - [A Neural Algorithm of Artistic Style - Leon A. Gatys, Alexander S. Ecker, Matthias Bethge](https://arxiv.org/abs/1508.06576)
 - [alexis-jacq/Pytorch-Tutorials](https://github.com/alexis-jacq/Pytorch-Tutorials)
@@ -114,7 +114,7 @@ All of source codes under our project are using [MIT License](http://opensource.
 
 - - -
 
-### Contact
+## Contact
 
 - Name : Yoon GaYoung 
 - Email : rkdud0925@hanyang.ac.kr
