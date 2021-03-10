@@ -6,17 +6,19 @@
 
 인공지능 예술 웹 서비스 [Bletcher Project](https://github.com/Bletcher-Project/Bletcher)의 **AI Repository** 입니다. Django로 이미지 합성 서버를 구현하였으며 Oracle Cloud에 배포되어 있습니다.
 
+_👏 우리는 [bletcher-ml](https://github.com/Bletcher-Project/bletcher-ml) 저장소를 지나와 100여개의 commit과 8개의 issue를 통한 많은 토의 끝에 배포되었습니다!!_
+
 _🚀 Version 1.1.0 Released_
 
 ## Technology
-
-<img src="./README_image/logic.png" alt="Logic" width="700" height="500"/>
 
 - Pytorch
 - Django
 - Cloudinary
 - Heroku
 - Oracle Cloud
+
+<img src="./README_image/logic.png" alt="Logic" width="700" height="500"/>
 
 ## 프로젝트 배포
 
@@ -42,7 +44,7 @@ _🚀 Version 1.1.0 Released_
 - Heroku timeout issue
   - [▶︎ Issue](https://github.com/Bletcher-Project/bletcher_mix/issues/6)
 
-## Run
+## Run (수정 필요)
 
 Oracle Cloud 에 배포되어 있습니다. `http://193.123.235.185:8000`의 `/synthesizing`라우터로 요청합니다.---
 
@@ -68,7 +70,7 @@ Bletcher-mix는 Oracle Cloud에 배포되어있어 따로 환경을 구축할 �
 
 ### 모델별 실행 결과 확인
 
-> ❗️❗️ neural style은 pytorch기반 CNN 모델로 **VGG19** 모델을 사용했을 때 최적의 성능을 볼 수 있습니다.❗️❗️
+> ❗️ neural style은 pytorch기반 CNN 모델로 **VGG19** 모델을 사용했을 때 최적의 성능을 볼 수 있습니다.
 
 VGG19 모델을 통해 실행 결과를 보고 싶다면 [neural_style.py](./api/neural_style.py) 파일을 열어 layer와 model을 다음과 같이 수정해야 합니다.
 
