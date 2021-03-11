@@ -31,9 +31,9 @@ _🚀 Version 1.1.0 Released_
 
 - [Heroku를 통한 어플리케이션 배포](https://github.com/Bletcher-Project/bletcher_mix/pull/5)
 - [Oracle Cloud를 통한 어플리케이션 배포](https://github.com/Bletcher-Project/bletcher_mix/pull/10)
-  - [▶︎ Issue](https://github.com/Bletcher-Project/bletcher_mix/issues/6)
-  - [▶︎ Issue](https://github.com/Bletcher-Project/bletcher_mix/issues/7)
-  - [▶︎ Issue](https://github.com/Bletcher-Project/bletcher_mix/issues/8)
+  - Heroku H12 Request timeout 문제 [▶︎ Issue](https://github.com/Bletcher-Project/bletcher_mix/issues/6)
+  - Heroku를 대체할 클라우드 서비스 비교 보고서 [▶︎ Issue](https://github.com/Bletcher-Project/bletcher_mix/issues/7)
+  - ORACLE CLOUD SSH 접속하기 [▶︎ Issue](https://github.com/Bletcher-Project/bletcher_mix/issues/8)
 
 ---
 
